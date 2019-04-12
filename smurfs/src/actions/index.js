@@ -46,7 +46,9 @@ function actionFunctionBuilder(action) {
     dispatch({
       type: `${action}_SMURFS_INITIALIZED`
     });
-    return axios({
+
+    setTimeout(function(){
+      return axios({
         method,
         url,
         data
@@ -63,6 +65,7 @@ function actionFunctionBuilder(action) {
           payload: err.response
         });
       });
+    }, 1500);
   }
 }
 

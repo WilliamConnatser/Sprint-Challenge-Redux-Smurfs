@@ -36,7 +36,7 @@ export const reducer = (state = initStore, action) => {
       status: {
         ...state.status,
         LOADING: false,
-        ERROR: action.payload
+        ERROR: action.payload.data.Error
       }
     }
   } else {

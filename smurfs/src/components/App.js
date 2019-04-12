@@ -32,17 +32,22 @@ class App extends Component {
         return (
             <div className="App">
                 <h1>SMURFS! 2.0 W/ Redux</h1>
-                <span style={{
+                <h2 style={{
                     color: 'red'
                 }}>{this.props.status.ERROR
                         ? this.props.status.ERROR
-                        : null}</span>
+                        : null}</h2>
 
+                <h2 style={{
+                    color: 'green'
+                }}>{this.props.status.LOADING
+                        ? 'Loading...'
+                        : null
+}</h2>
                 {this.props.status.LOADING
-                    ? 'Loading...'
-                    : null
+                    ? null
+                    : <button onClick={this.clickHandler}>Add</button>
 }
-                <button onClick={this.clickHandler}>Add</button>
                 {this.state.add
                     ? <SmurfForm smurf={this.props.smurf}/>
                     : null
