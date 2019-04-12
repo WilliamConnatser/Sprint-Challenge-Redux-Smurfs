@@ -9,8 +9,6 @@ const initStore = {
 
 export const reducer = (state = initStore, action) => {
 
-  let type = action.type.slice(0, action.type.indexOf('_'));
-
   if (action.type.endsWith('INITIALIZED')) {
     return {
       ...state,
