@@ -30,7 +30,6 @@ class SmurfForm extends Component {
     }
     submitHandler = event => {
         event.preventDefault();
-        console.log(this.state.smurf.id)
         isNaN(this.state.smurf.id)
             ? this
                 .props

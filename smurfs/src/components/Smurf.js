@@ -1,14 +1,20 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import SmurfForm from './SmurfForm';
+import {connect} from 'react-redux';
+import ACTIONS from '../actions/index';
 
-export default class Smurf extends Component {
+class Smurf extends Component {
     state = {
         edit: false
     }
     clickHandler = event => {
-        this.setState({
-            edit: !this.state.edit
-        })
+        if(event.target.name === 'edit') {
+            this.setState({
+                edit: !this.state.edit
+            })
+        } else {
+            this.props.DELETE(this.props.smurf);
+        }
     }
     render() {
         return (
@@ -20,7 +26,8 @@ export default class Smurf extends Component {
                 <h3>Height:</h3>
                 {this.props.smurf.height}
                 <br/>
-                <button onClick={this.clickHandler}>Edit</button>
+                <button name="edit" onClick={this.clickHandler}>Edit</button>
+                <button name="delete" onClick={this.clickHandler}>Delete</button>
                 {this.state.edit
                     ? <SmurfForm smurf={this.props.smurf}/>
                     : null
@@ -29,3 +36,11 @@ export default class Smurf extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return state;
+}
+
+export default connect(mapStateToProps, {
+    DELETE: ACTIONS.DELETE.DELETE
+})(Smurf);

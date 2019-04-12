@@ -4,12 +4,16 @@ import ACTIONS from '../actions/index';
 
 import './App.css';
 import SmurfList from './SmurfList';
+import SmurfForm from './SmurfForm';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
+        this.state = {
+            add: false
+        }
+
     }
 
     componentDidMount() {
@@ -18,13 +22,31 @@ class App extends Component {
             .GET();
     }
 
+    clickHandler = event => {
+        this.setState({
+            add: !this.state.add
+        })
+    }
+
     render() {
         return (
             <div className="App">
                 <h1>SMURFS! 2.0 W/ Redux</h1>
-                {this.props.status.ERROR
-                    ? this.props.status.ERROR
-                    : null}
+                <span style={{
+                    color: 'red'
+                }}>{this.props.status.ERROR
+                        ? this.props.status.ERROR
+                        : null}</span>
+
+                {this.props.status.LOADING
+                    ? 'Loading...'
+                    : null
+}
+                <button onClick={this.clickHandler}>Add</button>
+                {this.state.add
+                    ? <SmurfForm smurf={this.props.smurf}/>
+                    : null
+}
                 <SmurfList smurfs={this.props.smurfs}/>
             </div>
         );

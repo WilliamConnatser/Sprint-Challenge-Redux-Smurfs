@@ -1,10 +1,7 @@
 const initStore = {
   smurfs: [],
   status: {
-    GET: false,
-    ADD: false,
-    UPDATE: false,
-    DELETE: false,
+    LOADING: false,
     ERROR: null
   }
 }
@@ -19,7 +16,7 @@ export const reducer = (state = initStore, action) => {
       ...state,
       status: {
         ...state.status,
-        [type]: true,
+        LOADING: true,
         ERROR: null
       }
     }
@@ -29,7 +26,7 @@ export const reducer = (state = initStore, action) => {
       smurfs: action.payload,
       status: {
         ...state.status,
-        [type]: false,
+        LOADING: false,
         ERROR: null
       }
     }
@@ -38,7 +35,7 @@ export const reducer = (state = initStore, action) => {
       ...state,
       status: {
         ...state.status,
-        [type]: false,
+        LOADING: false,
         ERROR: action.payload
       }
     }
