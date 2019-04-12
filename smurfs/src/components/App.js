@@ -1,22 +1,70 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import ACTIONS from '../actions/index';
+
 import './App.css';
-/*
- to wire this component up you're going to need a few things.
- I'll let you do this part on your own. 
- Just remember, `how do I `connect` my components to redux?`
- `How do I ensure that my component links the state to props?`
- */
+import SmurfList from './SmurfList';
+import SmurfForm from './SmurfForm';
+
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your Redux version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            add: false
+        }
+
+    }
+
+    componentDidMount() {
+        this
+            .props
+            .GET();
+    }
+
+    clickHandler = event => {
+        this.setState({
+            add: !this.state.add
+        })
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <h1>SMURFS! 2.0 W/ Redux</h1>
+                <h2 style={{
+                    color: 'red'
+                }}>{this.props.status.ERROR
+                        ? this.props.status.ERROR
+                        : null}</h2>
+
+                <h2 style={{
+                    color: 'green'
+                }}>{this.props.status.LOADING
+                        ? 'Loading...'
+                        : null
+}</h2>
+                {this.props.status.LOADING
+                    ? null
+                    : <button onClick={this.clickHandler}>Add</button>
+}
+                {this.state.add
+                    ? <SmurfForm smurf={this.props.smurf}/>
+                    : null
+}
+                <SmurfList smurfs={this.props.smurfs}/>
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return state;
+}
+
+export default connect(mapStateToProps, {
+    GET: ACTIONS.GET.GET,
+    ADD: ACTIONS.ADD.ADD,
+    UPDATE: ACTIONS.UPDATE.UPDATE,
+    DELETE: ACTIONS.DELETE.DELETE
+})(App);

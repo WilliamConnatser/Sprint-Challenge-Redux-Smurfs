@@ -4,7 +4,9 @@
   "description": "Redux Sprint Challenge",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "client": "cd smurfs && npm run start",
+    "dev": "concurrently --names \"server,client\" \"npm run start --silent\" \"npm run client --silent\""
   },
   "repository": {
     "type": "git",
