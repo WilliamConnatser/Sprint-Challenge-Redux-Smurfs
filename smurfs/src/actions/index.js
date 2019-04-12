@@ -1,15 +1,66 @@
-/* 
-  Action Types Go Here!
-  Be sure to export each action type so you can pull it into your reducer
-*/
+import axios from 'axios';
 
-/*
-  For this project you'll need at least 2 action creators for the main portion,
-   and 2 more for the stretch problem.
-   Be sure to include action types for each type of action creator. Also, be sure to mind
-     the "pending" states like, fetching, creating, updating and deleting.
-   C - addSmurf
-   R - getSmurfs
-   U - updateSmurf
-   D - deleteSmurf
-*/
+const ACTIONS = {
+  GET: {},
+  ADD: {},
+  UPDATE: {},
+  DELETE: {}
+};
+
+for (let action in ACTIONS) {
+  ACTIONS[action] = {
+    [`${action}_SMURFS_INITIALIZED`]: `${action}_SMURFS_INITIALIZED`,
+    [`${action}_SMURFS_SUCCESSFUL`]: `${action}_SMURFS_SUCCESSFUL`,
+    [`${action}_SMURFS_FAILED`]: `${action}_SMURFS_FAILED`,
+    [action]: actionFunctionBuilder(action)
+  }
+}
+
+function actionFunctionBuilder(action) {
+  let url;
+  let method;
+
+  switch (action) {
+    case 'ADD':
+      method = 'post';
+      url = 'http://localhost:3333/smurfs';
+      break;
+    case 'GET':
+      method = 'get';
+      url = 'http://localhost:3333/smurfs';
+      break;
+    case 'UPDATE':
+      method = 'put';
+      url = 'http://localhost:3333/smurfs/';
+      break;
+    case 'DELETE':
+      method = 'delete';
+      url = 'http://localhost:3333/smurfs/';
+      break;
+  }
+
+  return data => dispatch => {
+    dispatch({
+      type: `${action}_SMURFS_INITIALIZED`
+    });
+    return axios({
+        method,
+        url,
+        data
+      })
+      .then(res => {
+        dispatch({
+          type: `${action}_SMURFS_SUCCESSFUL`,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: `${action}_SMURFS_FAILED`,
+          payload: err.response
+        });
+      });
+  }
+}
+
+export default ACTIONS;
