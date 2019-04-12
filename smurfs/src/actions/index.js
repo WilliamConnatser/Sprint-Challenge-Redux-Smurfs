@@ -40,6 +40,9 @@ function actionFunctionBuilder(action) {
   }
 
   return data => dispatch => {
+
+    if(method === 'delete' || method === 'put') url += data.id;
+
     dispatch({
       type: `${action}_SMURFS_INITIALIZED`
     });
